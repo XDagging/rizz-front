@@ -14,6 +14,8 @@ import UserContext from './context'
 import callApi from './functions'
 import Scores from './scores/page';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import PrivacyPolicy from './privacy/page';
+import Terms from "./terms/page"
 
 function App() {
   const location = useLocation();
@@ -72,6 +74,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<Terms />} />
             {/* <Route path="/download" element={<DownloadFile />} /> */}
             <Route element={<ProtectedRoute isAuthenticated={user!==null} />} >
                <Route path="/dashboard" element={<Dashboard />} />

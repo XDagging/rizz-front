@@ -6,6 +6,7 @@ import callApi, {isEmail, isPassword, isString} from "../functions"
 import type { NotifType, Timeout, User } from "../types";
 // import Footer from "../components/Footer"
 import { useNavigate, Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 let timeout: Timeout;
 export default function Signup() {
     const nav = useNavigate();
@@ -103,6 +104,16 @@ export default function Signup() {
 
         <>
         {/* <Navbar /> */}
+        
+<Helmet>
+            <meta charSet="utf-8" />
+            <title>Signup - toomanyheys</title>
+            <meta name="keywords" content="sat, satprep, sat dating, rizz, rizz dating" />
+            <meta
+      name="description"
+      content="Create your free toomanyheys account to get your SAT score!"
+    />
+        </Helmet>
 
         <Notif message={notif.message} type={notif.type}   />
 

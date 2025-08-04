@@ -1,6 +1,6 @@
 import { FaInstagram, FaTiktok, FaEnvelope } from "react-icons/fa";
-import logo from "../assets/logo.svg"
-
+import logo from "../assets/logo.png"
+import { Link } from "react-router-dom";
 
 
 
@@ -14,7 +14,7 @@ export default function Footer() {
         <>
 
             
-            <div className="footer flex flex-row  p-10">
+            <div className="footer sm:footer-horizontal footer-vertical  p-10">
                 <nav>
                     <img src={logo} className="size-8 object-cover"/>
                     <p className="font-1 text-lg"><span className="font-bold">toomanyheys</span>,<br/> the SAT that tests your game</p>
@@ -28,11 +28,15 @@ export default function Footer() {
                 
             </div>
                 </nav>
+                
 
 
                 
 
-                <nav>
+                <nav className="font-1">
+                    <p className="footer-title">Legal</p>
+                    <Link to="/terms" className="link link-hover">Terms and Conditions</Link>
+                    <Link to="/privacy" className="link link-hover">Privacy Policy</Link>
                
 
 

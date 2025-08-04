@@ -6,6 +6,7 @@ import { FaGoogle } from "react-icons/fa"
 import Notif from "../components/Notif"
 import { useNavigate } from "react-router-dom"
 import type { NotifType, Timeout } from "../types"
+import { Helmet } from "react-helmet"
 type LoginUser = {
     email: string;
     password: string;
@@ -99,6 +100,15 @@ export default function Login() {
         <>
 
         
+<Helmet>
+            <meta charSet="utf-8" />
+            <title>Terms and Conditions - toomanyheys</title>
+            <meta name="keywords" content="sat, satprep, sat dating, rizz, rizz dating" />
+            <meta
+      name="description"
+      content="Log into your toomanyheys account today!"
+    />
+        </Helmet>
         <Notif type={notif.type} message={notif.message} />
         <div className="min-h-screen">
                <Navbar />

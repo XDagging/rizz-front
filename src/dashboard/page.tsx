@@ -42,7 +42,7 @@ export default function Dashboard() {
 
     const openForm = () => {
         
-        window.open("https://developer.mozilla.org/en-US/docs/Web/API/Window/open")
+        window.open("https://docs.google.com/forms/d/e/1FAIpQLSdKPicRy6Ous6H_De_M-OwHfBNW3kVO-gz7AEFRz95QIijj4w/viewform?usp=header")
 
 
     }

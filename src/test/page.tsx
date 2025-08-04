@@ -24,7 +24,7 @@ export default function Test() {
     const [loadingBetweenSections, setLoadingBetweenSections] = useState<boolean>(false);
     const [loading, setLoading] = useState(true);
     const [hasStarted, setHasStarted] = useState(false);
-    const [currentState, setCurrentState] = useState("mcq");
+    const [currentState, setCurrentState] = useState("live");
     const [testNavTitle, setTestNavTitle] = useState("Multiple Choice Portion")
 
     const [outOfTests, setOutOfTests] = useState(false);
@@ -349,7 +349,7 @@ slideIntoDmsQuestions: [{
 
         {outOfTests ? <>
         
-        <div className="flex flex-row h-full min-h-screen w-full">
+        <div className="flex md:flex-row flex-col h-full min-h-screen w-full">
             {/* <AdminNavbar /> */}
             <div className="w-full bg-base-200 p-10 min-h-screen flex h-full flex-col gap-2">
                 <p className="font-1 text-4xl font-bold">Taking too many tests bud.</p>

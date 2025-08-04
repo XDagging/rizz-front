@@ -6,6 +6,7 @@ import { MicrophoneIcon } from "@heroicons/react/16/solid";
 import callApi from "../functions";
 import type { MessageType } from "../types";
 import type { Dispatch, SetStateAction } from "react";
+
 type AudioProps = {
   question: {
     question: string;
@@ -13,10 +14,9 @@ type AudioProps = {
   };
   testId: string;
   questionNumber: number;
-  setLiveAnswers: Dispatch<SetStateAction<MessageType[]>>
+  setLiveAnswers: Dispatch<SetStateAction<MessageType[]>>;
 };
 
-// 👇 Fix TS recognition constructor support
 type ISpeechRecognition = {
   start: () => void;
   stop: () => void;
@@ -46,247 +46,210 @@ declare global {
   }
 }
 
-let sawWarning: boolean = false;
+let sawWarning = false;
+
 export default function AudioSection(props: AudioProps) {
   const modal = useRef<HTMLDialogElement>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
-  const [messageSaid, setMessageSaid] = useState<string>("");
+  const [messageSaid, setMessageSaid] = useState("");
   const [question, setQuestion] = useState(props.question);
-  const [,setQuestionNumber] = useState(props.questionNumber);
+  const [, setQuestionNumber] = useState(props.questionNumber);
   const [myTurn, setMyTurn] = useState(true);
-  const [messages, setMessages] = useState<MessageType[]>([])
-  const [blocked, setBlocked] = useState<boolean>(false);
+  const [messages, setMessages] = useState<MessageType[]>([]);
+  const [blocked, setBlocked] = useState(false);
   const [warning, setWarning] = useState(sawWarning);
+  const [startConvo, setStartConvo] = useState(false);
 
+  // Setup recognition on question load or startConvo
   useEffect(() => {
     if (!warning && modal.current) {
       modal.current.showModal();
       setWarning(true);
+      return;
     }
 
     setQuestion(props.question);
     setQuestionNumber(props.questionNumber);
 
-    // Check for browser support
     const SpeechRecognitionConstructor =
       window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognitionConstructor) {
+      alert("Your browser does not support speech recognition. Try Chrome or Edge.")
       console.warn("SpeechRecognition API is not supported in this browser.");
       return;
-    } else {
-        console.log("SpeechRecognition is supported", SpeechRecognitionConstructor)
     }
 
-    if (blocked) {
-        return;
+    if (blocked || !startConvo) {
+      console.log("Waiting for startConvo...");
+      return;
     }
+
     const recognition = new SpeechRecognitionConstructor();
     recognition.lang = "en-US";
     recognition.continuous = false;
     recognition.interimResults = true;
 
+    recognition.onstart = () => {
+      console.log("🎤 Speech recognition started");
+    };
+
     recognition.onresult = (event) => {
-    console.log("this is still back on")
       if (myTurn) {
-            const transcript = Array.from(event.results)
-        .map((result: any) => result[0].transcript)
-        .join("");
-        console.log(transcript.length);
+        const transcript = Array.from(event.results)
+          .map((result: any) => result[0].transcript)
+          .join("");
         console.log("Transcript:", transcript);
         setMessageSaid(transcript);
-      } else {
-        setMessageSaid("");
       }
     };
 
     recognition.onsoundend = () => {
-        console.log("Speech has ended little bro");
-        setMyTurn(false);
-        console.log("we turned setTurn to false")
-    }
+      console.log("Speech ended");
+      setMyTurn(false);
+    };
+
     recognition.onerror = (e) => {
-      console.error("Speech recognition error", e);
+      console.error("Speech recognition error:", e.error);
+      setBlocked(true);
     };
 
     recognitionRef.current = recognition;
 
-
-
     return () => {
       recognition.stop();
     };
-  }, [props.question, props.questionNumber]);
+  }, [props.question, props.questionNumber, startConvo]);
 
-
-
-
+  // Start recognition when ready
   useEffect(() => {
-    async function x() {
-        console.log("we got to here")
-    if (myTurn&&recognitionRef.current&&!blocked) {
-        console.log("Started the recognition ref")
+    if (
+      startConvo &&
+      recognitionRef.current &&
+      myTurn &&
+      !blocked
+    ) {
+      try {
+        console.log("🔊 Attempting to start recognition...");
         recognitionRef.current.start();
-    } else if (recognitionRef.current&&!blocked) {
-        console.log("Stopped the recognition ref")
-
-           const newMessages = [
-  ...messages, // use current value directly
-  { side: "right", message: messageSaid ?? "" } as MessageType,
-];
-
-//  synchronous update
-
-recognitionRef.current?.stop();
-
-const res = await callApi("/getTest/voiceResponse", "POST", {
-  testId: props.testId,
-  messages: newMessages,
-});
-
-if (res.code === "err") {
-  console.log("Error is fine");
-} else if (res.code === "ok") {
-const aiResponse = res.message;
-
-if (aiResponse.toLowerCase().includes("*blocked")) {
-  setBlocked(true);
-  return newMessages;
-}
-
-newMessages.push({ side: "left", message: aiResponse });
-
-// Setup speech synthesis
-const synth = window.speechSynthesis;
-let allVoices = synth.getVoices();
-
-// Ensure voices are loaded (especially in Chrome)
-if (synth.onvoiceschanged !== undefined) {
-  synth.onvoiceschanged = () => {
-    allVoices = synth.getVoices();
-  };
-}
-
-// Get the best natural-sounding white woman voice
-function getBestWhiteWomanVoice(voices: any) {
-  const preferredNames = [
-    "Google UK English Female",
-    "Google US English",
-    "Samantha",
-    "Karen", // Australian
-    "Moira"  // Irish
-  ];
-
-  return (
-    voices.find((v: any) => preferredNames.some(name => v.name.includes(name))) ||
-    voices.find((v: any) => v.name.toLowerCase().includes("female")) ||
-    voices[0]
-  );
-}
-
-const whiteWomanVoice = getBestWhiteWomanVoice(allVoices);
-// const cleanedResponse = aiResponse
-//   .replace(/\\+"/g, '"')
-//   .replace(/\\n/g, ' ')
-//   .replace(/\\+/g, '')
-//   .replace(/\s+/g, ' ')
-//   .trim();
-// Speak response with phrase-level pitch variation
-function speakWithExpressivePitch(text: string) {
-  const phrases = text
-    .split(/(?<=[.,!?])\s+/) // split on ". ", ", ", "! ", etc.
-    .map(p => p.trim())
-    .filter(p => /[a-zA-Z]/.test(p)); // only keep phrases with letters
-
-  let index = 0;
-
-  const speakNext = () => {
-    if (index >= phrases.length) {
-      const interval = setTimeout(() => { 
-        console.log("we set myturn to true")
-        setMyTurn(true);
-        clearInterval(interval);
-        setMessages(newMessages);
-      
-      },200)
-        return;
-   
+      } catch (err) {
+        console.error("Failed to start recognition:", err);
+      }
     }
+  }, [startConvo, recognitionRef.current, myTurn, blocked]);
 
-    const utterance = new SpeechSynthesisUtterance(phrases[index]);
-    utterance.voice = whiteWomanVoice;
-    utterance.rate = 0.94;
-    utterance.pitch = 1.0 + Math.sin(index * 0.8) * 0.1;
-    utterance.volume = 1;
+  // After user speaks, process and reply
+  useEffect(() => {
+    async function process() {
+      if (!myTurn && recognitionRef.current && !blocked && startConvo) {
+        recognitionRef.current.stop();
 
-    utterance.onend = () => {
+        const newMessages = [
+          ...messages,
+          { side: "right", message: messageSaid ?? "" } as MessageType,
+        ];
 
-          index++;
+        const res = await callApi("/getTest/voiceResponse", "POST", {
+          testId: props.testId,
+          messages: newMessages,
+        });
+
+        if (res.code === "err") return;
+
+        const aiResponse = res.message;
+        if (aiResponse.toLowerCase().includes("*blocked")) {
+          setBlocked(true);
+          return;
+        }
+
+        newMessages.push({ side: "left", message: aiResponse });
+
+        const synth = window.speechSynthesis;
+        let allVoices = synth.getVoices();
+
+        if (synth.onvoiceschanged !== undefined) {
+          synth.onvoiceschanged = () => {
+            allVoices = synth.getVoices();
+          };
+        }
+
+        const getBestWhiteWomanVoice = (voices: any) => {
+          const preferred = [
+            "Google UK English Female",
+            "Google US English",
+            "Samantha",
+            "Karen",
+            "Moira",
+          ];
+          return (
+            voices.find((v: any) =>
+              preferred.some((name) => v.name.includes(name))
+            ) ||
+            voices.find((v: any) => v.name.toLowerCase().includes("female")) ||
+            voices[0]
+          );
+        };
+
+        const whiteWomanVoice = getBestWhiteWomanVoice(allVoices);
+
+        function speakWithExpressivePitch(text: string) {
+          const phrases = text
+            .split(/(?<=[.,!?])\s+/)
+            .map((p) => p.trim())
+            .filter((p) => /[a-zA-Z]/.test(p));
+
+          let index = 0;
+
+          const speakNext = () => {
+            if (index >= phrases.length) {
+              setTimeout(() => {
+                setMyTurn(true);
+                setMessages(newMessages);
+              }, 200);
+              return;
+            }
+
+            const utter = new SpeechSynthesisUtterance(phrases[index]);
+            utter.voice = whiteWomanVoice;
+            utter.rate = 0.94;
+            utter.pitch = 1.0 + Math.sin(index * 0.8) * 0.1;
+            utter.volume = 1;
+
+            utter.onend = () => {
+              index++;
+              speakNext();
+            };
+
+            synth.speak(utter);
+          };
+
           speakNext();
+        }
 
-   
-    
-    };
-
-    synth.speak(utterance);
-  };
-
-  speakNext();
-}
-
-
-speakWithExpressivePitch(aiResponse);
-
-
-}
-
-
-
-
-            
-
-            // setMyTurn(true);
-
-            
-
-            // const synth = window.speechSynthesis
-
-            // console.log('all voices', speechSynthesis.getVoices());
-
-            
-
-
-            
-   
-    } else {
-        console.log("My turn swapped but the ref wasn't there yet")
+        speakWithExpressivePitch(aiResponse);
+      }
     }
 
-
-    }
-
-
-    x()
-  }, [myTurn])
+    process();
+  }, [myTurn]);
 
   return (
     <>
+      {/* Modal for directions */}
       <dialog ref={modal} id="my_modal_1" className="modal">
         <div className="modal-box font-1">
           <div className="text-xs">
             <kbd className="kbd">ESC</kbd> to exit
           </div>
-
           <h3 className="font-bold text-xl">Directions</h3>
           <div className="py-4 gap-2 flex flex-col justify-start">
             <p>
-              You will have <span className="font-bold">the remaining time</span> to
-              use your skills in this hypothetical situation
+              You will have <span className="font-bold">the remaining time</span> to use your skills in this
+              hypothetical situation
             </p>
             <p>Use your microphone to talk back and forth, make sure you sound clear.</p>
             <p>If you get blocked, the clock will run down and your test is over.</p>
           </div>
-
           <div className="modal-action">
             <form method="dialog">
               <button className="btn">Continue</button>
@@ -308,48 +271,52 @@ speakWithExpressivePitch(aiResponse);
             </div>
 
             <div className="w-full h-full flex flex-col items-center gap-2 justify-center">
-            {!blocked ? <>
-                <div
-                className={`p-5 rounded-full cursor-pointer ${
-                  myTurn ? "text-primary-content bg-primary" : "text-red-500 bg-base-100"
-                }`}
-              >
-                <MicrophoneIcon className="size-12" />
-              </div>
-              <p
-                className={`font-bold text-2xl ${
-                  myTurn ? "text-primary" : "text-red-500"
-                }`}
-              >
-                {myTurn ? "Talk Now" : "Hold on"}
-              </p>
-              <p className="p-3 font-1 font-semibold">{messageSaid}</p>
-            </>
-              : <>
-              <div
-                className={`p-5 rounded-full cursor-pointer ${"text-red-500"
-                }`}
-              >
-                <MicrophoneIcon className="size-12" />
-              </div>
-              <p className="text-error font-1 font-bold">She hung up on you lil bro</p>
-              
-              
-              
-              </>
-            
-            
-            }
-          
+              {startConvo ? (
+                !blocked ? (
+                  <>
+                    <div
+                      className={`p-5 rounded-full cursor-pointer ${
+                        myTurn ? "text-primary-content bg-primary" : "text-red-500 bg-base-100"
+                      }`}
+                    >
+                      <MicrophoneIcon className="size-12" />
+                    </div>
+                    <p
+                      className={`font-bold text-2xl ${
+                        myTurn ? "text-primary" : "text-red-500"
+                      }`}
+                    >
+                      {myTurn ? "Talk Now" : "Hold on"}
+                    </p>
+                    <p className="p-3 font-1 font-semibold">{messageSaid}</p>
+                  </>
+                ) : (
+                  <>
+                    <div className="p-5 rounded-full text-red-500">
+                      <MicrophoneIcon className="size-12" />
+                    </div>
+                    <p className="text-error font-1 font-bold">She hung up on you lil bro</p>
+                  </>
+                )
+              ) : (
+                <div className="font-1 mx-auto w-4/6 flex flex-col gap-2 items-center justify-center text-center">
+                  <p className="text-lg font-semibold font-1 text-primary">Start Conversation</p>
+                  <button className="btn btn-primary" onClick={() => setStartConvo(true)}>
+                    Start Call
+                  </button>
+                  <p>
+                    Remember you will need to talk quickly back and forth; taking too long will get
+                    you blocked
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
         <div className="w-full flex flex-col gap-4 font-1">
-          {(blocked) && (
-            <div className="badge badge-error font-1">Blocked</div>
-          )}
-          
+          {blocked && <div className="badge badge-error font-1">Blocked</div>}
+
           <div className="flex flex-row bg-base-300 items-center font-1 gap-4 w-full">
             <p className="p-2 bg-neutral text-neutral-content font-1 font-bold">
               {props.questionNumber + 1}

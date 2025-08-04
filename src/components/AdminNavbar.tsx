@@ -7,7 +7,7 @@ import callApi from "../functions";
 import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import UserContext from "../context";
 // import { sign } from "crypto";
-import logo from "../assets/logo.svg"
+import logo from "../assets/logo.png"
 
 export default function AdminNavbar() {
     const [navOpen, setNavOpen] = useState<boolean>(true)

@@ -11,7 +11,9 @@ import Conversation from './components/Conversation';
 import type { MessageType } from './types';
 import { Link } from 'react-router-dom'
 import Footer from "./components/Footer"
-// import Navbar from './components/Navbar'
+
+import { Helmet } from 'react-helmet'
+import Navbar from './components/Navbar'
 // let interval;
 function App() {
   // const [count, setCount] = useState(0)
@@ -91,8 +93,20 @@ useEffect(() => {
     <>
 
       {/* <Navbar /> */}
+      
+<Helmet>
+            <meta charSet="utf-8" />
+            <title>toomanyheys - the SAT that tests your game</title>
+            <meta name="keywords" content="sat, satprep, sat dating, rizz, rizz dating" />
+            <meta
+      name="description"
+      content="The official SAT that tests your game. You talk the talk, now let's walk the walk."
+    />
+        </Helmet>
+      <Navbar />
       <div className='hero overflow-hidden  md:max-h-screen'>
         <div className='hero-content'>
+
           <div className='grid md:grid-cols-2 grid-cols-1 items-center justify-center justify-items-center w-fit h-full mx-auto'>
             
             <div className='flex flex-col gap-4 w-fit'>
