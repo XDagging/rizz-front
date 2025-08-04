@@ -5,15 +5,12 @@ import AdminNavbar from "../components/AdminNavbar";
 import type { User } from "../types";
 import imgOne from "../assets/testimonyOne.webp"
 import { TrophyIcon, DocumentIcon, PencilIcon } from "@heroicons/react/24/solid";
-import ScoreBox from "../components/ScoreBox";
-import { Link } from "react-router-dom";
 
 
 
 export default function Dashboard() {
     const uContext = useContext(UserContext)
     const navigation = useNavigate()
-    const [loading, setLoading] = useState(true);
 
     const [user, setUser] = useState<User>({
         name: "",

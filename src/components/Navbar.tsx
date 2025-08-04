@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 
@@ -15,13 +14,13 @@ export default function Navbar() {
 
             <nav className="navbar p-4">
                 <div className="navbar-start">
-                    <Link to="/" className="font-1 font-1 font-bold text-2xl">satprep</Link>
+                    <Link to="/" className="font-1 font-1 font-bold text-2xl">toomanyheys.com</Link>
                 </div>
                 <div className="navbar-center">
                     <div className="menu lg:flex hidden font-semibold font-1 menu-horizontal gap-5  "> 
                         <Link to="/" className="btn-ghost btn">Home</Link>
-                        <Link to="/features" className=" btn btn-ghost">Why does this exist?</Link>
-                        <Link to="/works" className="btn-ghost btn">How it works</Link>
+                        <Link to="/features" className=" btn btn-ghost btn-disabled">Why does this exist?</Link>
+                        <Link to="/works" className="btn-ghost btn btn-disabled">How it works</Link>
                     </div>
                     
                 </div>

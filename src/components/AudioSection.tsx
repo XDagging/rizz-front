@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import { PhoneIcon } from "@heroicons/react/24/outline";
 import { VideoCameraIcon } from "@heroicons/react/16/solid";
@@ -47,13 +47,12 @@ declare global {
 }
 
 let sawWarning: boolean = false;
-const synth = window.speechSynthesis;
 export default function AudioSection(props: AudioProps) {
   const modal = useRef<HTMLDialogElement>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
   const [messageSaid, setMessageSaid] = useState<string>("");
   const [question, setQuestion] = useState(props.question);
-  const [questionNumber, setQuestionNumber] = useState(props.questionNumber);
+  const [,setQuestionNumber] = useState(props.questionNumber);
   const [myTurn, setMyTurn] = useState(true);
   const [messages, setMessages] = useState<MessageType[]>([])
   const [blocked, setBlocked] = useState<boolean>(false);
@@ -169,7 +168,7 @@ if (synth.onvoiceschanged !== undefined) {
 }
 
 // Get the best natural-sounding white woman voice
-function getBestWhiteWomanVoice(voices) {
+function getBestWhiteWomanVoice(voices: any) {
   const preferredNames = [
     "Google UK English Female",
     "Google US English",
@@ -179,19 +178,19 @@ function getBestWhiteWomanVoice(voices) {
   ];
 
   return (
-    voices.find(v => preferredNames.some(name => v.name.includes(name))) ||
-    voices.find(v => v.name.toLowerCase().includes("female")) ||
+    voices.find((v: any) => preferredNames.some(name => v.name.includes(name))) ||
+    voices.find((v: any) => v.name.toLowerCase().includes("female")) ||
     voices[0]
   );
 }
 
 const whiteWomanVoice = getBestWhiteWomanVoice(allVoices);
-const cleanedResponse = aiResponse
-  .replace(/\\+"/g, '"')
-  .replace(/\\n/g, ' ')
-  .replace(/\\+/g, '')
-  .replace(/\s+/g, ' ')
-  .trim();
+// const cleanedResponse = aiResponse
+//   .replace(/\\+"/g, '"')
+//   .replace(/\\n/g, ' ')
+//   .replace(/\\+/g, '')
+//   .replace(/\s+/g, ' ')
+//   .trim();
 // Speak response with phrase-level pitch variation
 function speakWithExpressivePitch(text: string) {
   const phrases = text

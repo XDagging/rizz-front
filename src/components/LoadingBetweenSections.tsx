@@ -1,6 +1,3 @@
-import React from "react";
-import { BsHourglass } from "react-icons/bs";
-
 
 
 export default function LoadingBetweenSections() {

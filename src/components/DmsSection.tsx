@@ -263,7 +263,7 @@ export default function DmsSection(props: DmsProps) {
                             
 
                             </> : <>
-                                      <button className="btn btn-primary w-full" onClick={(e) => {
+                                      <button className="btn btn-primary w-full" onClick={() => {
                                 
                                if (messageRef.current) messageRef.current.value = "";
 

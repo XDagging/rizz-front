@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 // import './App.css'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Route, Routes, BrowserRouter } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import Index from './page'
 import Signup from "./signup/page"
 import Dashboard from './dashboard/page'
@@ -9,7 +9,8 @@ import Test from "./test/page"
 import Login from "./login/page"
 import type { BrowserUser } from './types'
 import Settings from './settings/page';
-import UserContext, {IsLoggedInContext} from './context'
+import UserContext from './context'
+// import DownloadFile from './components/DownloadFile';
 import callApi from './functions'
 import Scores from './scores/page';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -71,6 +72,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/signup" element={<Signup />} />
+            {/* <Route path="/download" element={<DownloadFile />} /> */}
             <Route element={<ProtectedRoute isAuthenticated={user!==null} />} >
                <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/test" element={<Test />} /> 

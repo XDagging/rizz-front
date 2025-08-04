@@ -12,7 +12,7 @@ import type { MessageType } from './types';
 import { Link } from 'react-router-dom'
 import Footer from "./components/Footer"
 // import Navbar from './components/Navbar'
-let interval;
+// let interval;
 function App() {
   // const [count, setCount] = useState(0)
 
@@ -153,7 +153,7 @@ useEffect(() => {
 
 
       
-     {messages.map((message, i) => (
+     {messages.map((message) => (
         <Message key={message.message} side={message.side} message={message.message} loading={message?.loading} />
      ))}
 

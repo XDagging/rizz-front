@@ -5,11 +5,11 @@ import { FaGoogle } from "react-icons/fa";
 import callApi, {isEmail, isPassword, isString} from "../functions"
 import type { NotifType, Timeout, User } from "../types";
 // import Footer from "../components/Footer"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 let timeout: Timeout;
 export default function Signup() {
     const nav = useNavigate();
-    const url = window.location.href.includes("localhost") ? "https://localhost:443" : "https://PROD_URL";
+    const url = window.location.href.includes("localhost") ? "https://localhost:443" : "https://api.toomanyheys.com";
 
     const [user, setUser] = useState<User>({
         name: "",
@@ -146,13 +146,16 @@ export default function Signup() {
                 
                 </fieldset> 
 
-                <button onClick={doSubmit} className="btn btn-primary">Join the waitlist</button>
+                <button onClick={doSubmit} className="btn btn-primary">Create your account</button>
+                <Link to="/login" className="mt-2 link-primary ">Login Instead</Link>
   <div className="divider w-full divider-neutral">or</div>
                 
                 <a href={url + "/auth/google"} className="btn btn-outline btn-secondary ">
                     <FaGoogle />
                     <p>Continue with Google</p>
                 </a>
+
+                
             </div>
         
 

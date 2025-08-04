@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from "react";
-import { resolveTailwindBgHex } from "../functions";
+// import React, { useEffect, useRef } from "react";
+// import { resolveTailwindBgHex } from "../functions";
 
 type ScoreBoxType = {
   charmNum: number;
   executionNum: number;
   dateTaken: number;
 };
+
+
 
 export default function ScoreBox(props: ScoreBoxType) {
 

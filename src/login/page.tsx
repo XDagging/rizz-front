@@ -15,7 +15,7 @@ type LoginUser = {
 let timeout: Timeout;
 export default function Login() {
     const nav = useNavigate();
-    const url = window.location.href.includes("localhost") ? "https://localhost:443" : "https://PROD_URL";
+    const url = window.location.href.includes("localhost") ? "https://localhost:443" : "https://api.toomanyheys.com";
 
     const [user, setUser] = useState<LoginUser>({
         email: "",

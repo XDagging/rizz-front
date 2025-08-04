@@ -9,7 +9,6 @@ interface props {
 
 export default function Notif(props: props) {
     
-
     useEffect(() => {
         if (typeof props.message === "string" && props.message.length>0) {
             console.log("this was triggered")

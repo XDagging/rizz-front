@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import UserContext from "../context";
 import AdminNavbar from "../components/AdminNavbar";
-import { Cog8ToothIcon,UserIcon, ArrowRightStartOnRectangleIcon, FireIcon, TrashIcon, InformationCircleIcon } from "@heroicons/react/24/solid";
+import { Cog8ToothIcon,UserIcon, ArrowRightStartOnRectangleIcon, FireIcon, InformationCircleIcon } from "@heroicons/react/24/solid";
 import type { BrowserUser } from "../types";
 import { useNavigate } from "react-router-dom";
 import callApi from "../functions";
@@ -81,7 +81,7 @@ export default function Settings() {
                         <fieldset className="fieldset w-full">
   <legend className="fieldset-legend">Username</legend>
         <input value={user.name} onChange={(e) => {
-            setUser((prev) => {
+            setUser((prev: any) => {
                 return {...prev, name: e.target.value}
             })
         }}  type="text" className="input w-full" placeholder="Type here" />
