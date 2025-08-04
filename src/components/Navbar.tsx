@@ -14,7 +14,7 @@ export default function Navbar() {
 
             <nav className="navbar p-4">
                 <div className="navbar-start">
-                    <div className="flex flex items-center gap-2">
+                    <div className="flex flex-row items-center gap-2">
                               <img src={logo} className="size-6" />
                     <Link to="/" className="font-1 font-1 font-bold text-2xl">toomanyheys</Link>
 
