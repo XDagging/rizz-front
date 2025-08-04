@@ -75,7 +75,7 @@ export default function AudioSection(props: AudioProps) {
       window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognitionConstructor) {
-      alert("Your browser does not support speech recognition. Try Chrome or Edge.")
+      alert("Your browser does not support speech recognition. Your score is now capped at a 1400. To not get this message, take this on a chrome or equivalent browser (not apple).")
       console.warn("SpeechRecognition API is not supported in this browser.");
       return;
     }

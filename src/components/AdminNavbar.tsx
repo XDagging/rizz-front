@@ -145,8 +145,8 @@ export default function AdminNavbar() {
             <p className="text-error">Sign out</p>
         </Link>
     </li>
-    <li className=""><Link to="/settings"><CloudIcon className="size-5"/>Terms of Service</Link></li>
-    <li className=""><Link to="/settings"><LockClosedIcon className="size-5"/>Privacy Policy</Link></li>
+    <li className=""><Link to="/terms"><CloudIcon className="size-5"/>Terms of Service</Link></li>
+    <li className=""><Link to="/privacy"><LockClosedIcon className="size-5"/>Privacy Policy</Link></li>
 </ul>
                     </div>
                     
