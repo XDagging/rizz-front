@@ -107,9 +107,9 @@ export default function Signup() {
         <Notif message={notif.message} type={notif.type}   />
 
 
-        <section className="min-h-screen w-full grid grid-cols-2 font-1">
+        <section className="min-h-screen w-full grid md:grid-cols-2 grid-cols-1 font-1">
 
-               <div className="flex flex-col items-center justify-items-center justify-center gap-2 rounded-box p-8 text-center">
+               <div className="flex flex-col items-center justify-items-center justify-center gap-2 rounded-box p-4 md:p-8 text-center">
             <p className="text-5xl font-1 font-extrabold">Take the <br/>Test</p>
             <p className="font-1 text-lg w-4/6">Take the SAT when you want, infinitely.</p>
 
@@ -160,7 +160,7 @@ export default function Signup() {
 
         </div>
 
-            <div className="bg-base-300 font-1 p-10 flex flex-row items-center">
+            <div className="bg-base-300 font-1 md:p-10 p-4 flex flex-row items-center">
                 <div className=" h-4/6 w-full rounded-box">
                     <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1" className="w-full h-full rounded-box" />
                         

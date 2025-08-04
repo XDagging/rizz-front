@@ -1,14 +1,17 @@
-import React, {useContext, useState} from "react";
-import { FaGoogle } from "react-icons/fa";
+import {useContext, useEffect, useState} from "react";
+// import { FaGoogle } from "react-icons/fa";
 import { BoltIcon, Cog6ToothIcon, ArchiveBoxIcon, LifebuoyIcon, ChevronRightIcon, CogIcon, CloudIcon, ArrowRightStartOnRectangleIcon, Square3Stack3DIcon, LockClosedIcon } from "@heroicons/react/24/solid";
-import type { User } from "../types";
+// import type { User } from "../types";
 import { Link, useNavigate } from "react-router-dom";
 import callApi from "../functions";
-import imgOne from "../assets/testimonyOne.webp"
+import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import UserContext from "../context";
 // import { sign } from "crypto";
+import logo from "../assets/logo.svg"
 
 export default function AdminNavbar() {
+    const [navOpen, setNavOpen] = useState<boolean>(true)
+    const [viewport, setViewport] = useState<boolean>(window.innerWidth>640 ? true : false);
     const navigation = useNavigate()
     let user = null;
     if (useContext(UserContext)) {
@@ -16,6 +19,16 @@ export default function AdminNavbar() {
     } else {
         navigation("/login")
     }
+    useEffect(() => {
+        setViewport(window.innerWidth>640 ? true : false)
+        console.log("viewport", window.innerWidth>640 ? true : false)
+        if (viewport) {
+            setNavOpen(true)
+        } else {
+            setNavOpen(false);
+        }
+        
+    },[])
    
 
 
@@ -32,10 +45,6 @@ export default function AdminNavbar() {
                 navigation("/login")
             }
         })
-
-
-
-
     }
 
 
@@ -55,11 +64,19 @@ export default function AdminNavbar() {
 
     return (
         <>
-        <div className="w-1/6 font-1 bg-base-200 p-2 flex flex-col gap-2 sticky top-0 left-0 min-h-screen border-r shadow-md border-secondary">
+        
+        <div className="md:hidden fixed btn btn-ghost z-50 bottom-2 left-2" onClick={() => setNavOpen((prev) => !prev)}>
+            <PiDotsThreeOutlineFill className="size-6" />
+        </div>
+        
+
+        {(navOpen) && (
+        <div className={`${viewport ? "w-1/6 " : "w-full fixed top-0 left-0 z-40"} flex font-1 bg-base-200 p-2 h-full flex-col gap-2 sticky top-0 left-0 min-h-screen border-r shadow-md border-secondary`}>
 
             <div className="flex flex-row items-center gap-4 p-3 hover:bg-base-100 select-none cursor-pointer rounded-box">
-                <FaGoogle />
-                <p className="font-bold text-lg">thedailysat</p>
+                <img src={logo} className="size-5 object-cover" />
+                {/* <FaGoogle /> */}
+                <p className="font-bold text-lg">toomanyheys</p>
             </div>
 
 
@@ -89,10 +106,10 @@ export default function AdminNavbar() {
                 </Link>
 
 
-                  <div className="flex flex-row items-center gap-2 p-3 hover:bg-base-100 select-none cursor-pointer rounded-box">
+                  <Link to="/scores" className="flex flex-row items-center gap-2 p-3 hover:bg-base-100 select-none cursor-pointer rounded-box">
                     <ArchiveBoxIcon className="size-4" />
                     <p className="font-semibold">Previous Scores</p>
-                </div>
+                </Link>
             
             
                 <Link to="/settings" className="flex flex-row items-center gap-2 p-3 hover:bg-base-100 select-none cursor-pointer rounded-box">
@@ -105,7 +122,7 @@ export default function AdminNavbar() {
             
             
             </div>
-               <div className=" dropdown dropdown-right dropdown-end">
+               <div className="dropdown dropdown-top">
                     <div tabIndex={0} role="button" className="w-full h-full flex  flex-row items-center p-3 rounded-box border-2 border-base-300 gap-2 hover:bg-base-300 select-none">
                     <img src={user?.imgUrl} className="w-8 h-8 rounded-full">
                     </img>
@@ -142,8 +159,8 @@ export default function AdminNavbar() {
         </div>
         
         
-        
-        
+        )}
+      
         </>
     )
 

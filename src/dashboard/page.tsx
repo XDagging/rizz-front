@@ -56,7 +56,7 @@ export default function Dashboard() {
         <>
 
 
-            <section className="flex flex-row w-full">
+            <section className="md:flex md:flex-row  w-full">
 
                 <AdminNavbar />
 
@@ -85,9 +85,9 @@ Click on this to learn more!</p>
                     <div className=" mt-4 ">
                         <p className="font-1 font-bold text-2xl">Take your test</p>
 
-                        <div className="grid grid-cols-6 gap-2">
+                        <div className="grid md:grid-cols-6 grid-cols-1 gap-2">
 
-                            <div className="flex flex-row w-full gap-2 mt-2 col-span-4 items-center">
+                            <div className="flex md:flex-row flex-col w-full gap-2 mt-2 col-span-4 items-center">
                                 
                                 <div onClick={() => {
                                     navigation("/test")
@@ -98,7 +98,7 @@ Click on this to learn more!</p>
 
 
 
-                                    <div className="absolute z-20 top-[-10px] right-[-10px] badge text-accent-content badge-accent">
+                                    <div className="absolute z-10 top-[-10px] right-[-10px] badge text-accent-content badge-accent">
                                         <p className="font-1">{user.testsAvailable} Tests Available</p>
                                     </div>
                                 </div>

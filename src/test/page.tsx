@@ -2,21 +2,25 @@ import { useState, useEffect } from "react";
 import TestNavbar from "../components/TestNavbar"
 import MultipleChoice from "../components/MultipleChoice";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/solid";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import TestDock from "../components/TestDock"
 import DmsSection from "../components/DmsSection";
 import LoadingBetweenSections from "../components/LoadingBetweenSections";
+import AudioSection from "../components/AudioSection";
 import type { MessageType } from "../types";
 import { SiKlarna } from "react-icons/si";
+import { CgSmileMouthOpen } from "react-icons/cg";
+
 import { SiAffine } from "react-icons/si";
-import AdminNavbar from "../components/AdminNavbar";
+// import AdminNavbar from "../components/AdminNavbar";
 import callApi from "../functions";
 
 type MessageObj = {
     messages: MessageType[]
 }
+let interval :any ;
 export default function Test() {
-    const navigation = useNavigate();
+    // const navigation = useNavigate();
     const [loadingBetweenSections, setLoadingBetweenSections] = useState<boolean>(false);
     const [loading, setLoading] = useState(true);
     const [hasStarted, setHasStarted] = useState(false);
@@ -26,10 +30,10 @@ export default function Test() {
     const [outOfTests, setOutOfTests] = useState(false);
 
     const [disableNav, setDisableNav] = useState(false);
-
+    const [timer, setTimer] = useState(60*15*1000)
     const [mcqAnswers, setMcqAnswers] = useState(Array(20).fill(""))
     const [dmsAnswers, setDmsAnswers] = useState<MessageObj | any[any]>(Array(3).fill([]))
-
+    const [liveAnswers, setLiveAnswers] = useState<MessageType[]>([])
 
     const [currentQuestion, setCurrentQuestion] = useState<number>(0)
     const [test, setTest] = useState({
@@ -183,7 +187,11 @@ slideIntoDmsQuestions: [{
 },{
     question: "This girl is in your scicen class and she's lowk annoying. She's kinda hot but it's not worth allat.",
     goal: "Lead this girl on"
-},],realTimeLiveQuestion: {}
+},],realTimeLiveQuestion: {
+    goal: "Establish a connection and keep her engaged.",
+    question: "You're at a social gathering, and you want to approach her. How do you start the conversation?"
+
+}
 
         }
 
@@ -193,19 +201,69 @@ slideIntoDmsQuestions: [{
 
     })
 
-    useEffect(() => {
-        if (currentQuestion>=test.fullTest.mcqQuestions.length&&currentState==="mcq") {
-            console.log("this was triggered", currentQuestion)
-            setLoadingBetweenSections(true);
 
-            setTimeout(() => {
-                setLoadingBetweenSections(false);
-            },6000)
-            setCurrentState("dms")
-            setTestNavTitle("Direct Message (DM) Situationals")
-            setCurrentQuestion(0);
+      useEffect(() => {
+        
+        interval = setInterval(() => {
             
-        } else if (currentQuestion>=test.fullTest.slideIntoDmsQuestions.length&&currentState==="dms") {
+
+
+            setTimer((prevTimer) => {
+                return prevTimer-1000
+            })
+
+            if (timer<=0) {
+                submitTest();
+                clearInterval(interval);
+            }
+
+        },1000)
+
+
+
+    },[])
+
+
+
+    const submitTest = () => {
+        return new Promise(async(resolve) => {
+
+
+            callApi("/getTest/submitTest", "POST", {
+                testId: test.uuid,
+                mcqAnswers: mcqAnswers,
+                dmsAnswers: dmsAnswers,
+                liveAnswers: liveAnswers,
+            }).then((res) => {
+                if (res.code === "err") {
+                    console.log("smth happened", res)
+                } else if (res.code ==="ok") {
+                  
+                } else {
+                    console.log("somehow it got to the else", res)
+                }
+                resolve("");
+            })
+        })
+       
+
+
+
+    }
+    useEffect(() => {
+        async function x() {
+            if (currentQuestion>=test.fullTest.mcqQuestions.length&&currentState==="mcq") {
+                console.log("this was triggered", currentQuestion)
+                setLoadingBetweenSections(true);
+
+                setTimeout(() => {
+                    setLoadingBetweenSections(false);
+                },6000)
+                setCurrentState("dms")
+                setTestNavTitle("Direct Message (DM) Situationals")
+                setCurrentQuestion(0);
+            
+            } else if (currentQuestion>=test.fullTest.slideIntoDmsQuestions.length&&currentState==="dms") {
             setLoadingBetweenSections(true);
             setTimeout(() => {
                 setLoadingBetweenSections(false);
@@ -214,13 +272,25 @@ slideIntoDmsQuestions: [{
             setCurrentState("live");
             setTestNavTitle("Live on-to-one");
             setCurrentQuestion(0);
-        } else if (currentQuestion>=1&&currentState==="live") {
+        } 
+        else if (currentQuestion>=1&&currentState==="live") {
             setLoadingBetweenSections(true);
-            setTimeout(() => {
+            console.log("started to finish")
+            await submitTest();
+            console.log("finisheddd")
+            setCurrentQuestion(0);
+            console.log("we set current state to finsihed")
+            setCurrentState("finished");
+            await new Promise(async(resolve) => await setTimeout(() => {
                 setLoadingBetweenSections(false);
-            },6000)
+                resolve
+            },6000))
+
+           
 
         }
+        }
+        x();
     },[currentQuestion])
 
 
@@ -407,7 +477,10 @@ slideIntoDmsQuestions: [{
 
         
          {hasStarted ? <>
-            <TestNavbar slideName={testNavTitle} /> 
+            {(currentState!=="finished") && (
+                <TestNavbar timer={timer} slideName={testNavTitle}  /> 
+            )}
+   
             {(currentState==="mcq"&&test&&!loadingBetweenSections) && (
                 <>
                      
@@ -416,7 +489,7 @@ slideIntoDmsQuestions: [{
             {/* This is the mcq portion */}
             {console.log("this is test", test)}
            
-                <MultipleChoice question={test.fullTest.mcqQuestions[currentQuestion]} questionNumber={currentQuestion+1} setMcqAnswers={setMcqAnswers} />
+                <MultipleChoice question={test.fullTest.mcqQuestions[currentQuestion]} questionNumber={currentQuestion+1} answerSaved={mcqAnswers[currentQuestion]} setMcqAnswers={setMcqAnswers} />
                 <TestDock disableNav={disableNav} setCurrentQuestion={setCurrentQuestion} />
        
 
@@ -445,7 +518,10 @@ slideIntoDmsQuestions: [{
 
             {(currentState==="live"&&test&&!loadingBetweenSections) && (
                 <>
-                    <p>adsf</p>
+                    <AudioSection testId={test.uuid} setLiveAnswers={setLiveAnswers}  question={test.fullTest.realTimeLiveQuestion} questionNumber={currentQuestion} />
+
+
+
 
                     <TestDock disableNav={disableNav}  setCurrentQuestion={setCurrentQuestion} />
                 
@@ -454,6 +530,37 @@ slideIntoDmsQuestions: [{
 
             )}
        
+
+            {(currentState==="finished"&&test&&!loadingBetweenSections) && (
+                <div className="w-full font-1 min-h-screen">
+                    <div className="md:p-10 p-4 text-center items-center justify-center flex flex-col gap-4">
+                        <p className="md:text-4xl text-3xl font-1">Congratulations!</p>
+                        <p className="font-1 text-lg">The test is complete, and your answers have been submitted.</p>
+
+                        <div className="bg-base-200 grid md:grid-cols-2 grid-cols-1 p-10  md:w-3/6  items-center gap-4 text-left rounded-box">
+                            <div className="mx-auto">
+                            <CgSmileMouthOpen className="size-40" />
+                            </div>
+
+                     
+
+                            <div className="flex flex-col items-center gap-10 md:text-left text-center">
+                                <p className="font-1"> <span className="font-bold">You can dismiss yourself whenever you want.</span> I'm not watching
+</p>
+                             
+                             <p><span className="font-bold">Please be quiet;</span> other students might be taking the test with you for some reason.</p>
+                            </div>
+
+                        </div>
+
+
+                        <div>
+                            <Link to="/dashboard" className="btn-primary btn rounded-full">Return to homepage</Link>
+                        </div>
+                    </div>  
+
+                </div>
+            )}
        
            
         
@@ -461,20 +568,20 @@ slideIntoDmsQuestions: [{
 
         <>  
 
-        <div className="w-full relative bg-base-200 mx-auto items-center justify-center flex flex-row h-full min-h-screen ">
+        <div className="w-full relative bg-base-200 mx-auto items-center justify-center flex flex-row h-full min-h-screen p-2">
 
             <div className="w-full">
                 <h1 className="font-1 text-5xl text-center mb-4">Good Luck!</h1>
 
 
-                <div className="w-2/6 mx-auto gap-8 font-1 bg-base-100 rounded-box shadow-md flex flex-col items-center justify-center p-3">
+                <div className="md:w-2/6 mx-auto gap-8 font-1 bg-base-100 rounded-box shadow-md flex flex-col items-center justify-center p-3">
                     <div className="grid grid-cols-5 items-start justify-items-end gap-4">
                         <MagnifyingGlassCircleIcon className="size-12" />
                         <div className="col-span-4 w-full">
                             <div className="flex flex-col gap-3 text-left">                         
-                                <p className="font-1 text-3xl font-bold text-left">Use Context Clues</p>
+                                <p className="font-1 md:text-3xl text-2xl font-bold text-left">Use Context Clues</p>
 
-                                <p className="text-left text-lg">Try your best. You probably won't know the answer to every question (and that's okay).</p>
+                                <p className="text-left md:text-lg">Try your best. You probably won't know the answer to every question (and that's okay).</p>
 
 
                             </div>
@@ -489,9 +596,9 @@ slideIntoDmsQuestions: [{
                         <MagnifyingGlassCircleIcon className="size-12" />
                         <div className="col-span-4 w-full">
                             <div className="flex flex-col gap-3 text-left">                         
-                                <p className="font-1 text-3xl font-bold text-left">Try your best</p>
+                                <p className="font-1 md:text-3xl text-2xl font-bold text-left">Try your best</p>
 
-                                <p className="text-left text-lg">Let's be real. You probably have <span className="font-bold">zero game</span> but it's okay, these questions will make you better.</p>
+                                <p className="text-left md:text-lg">Let's be real. You probably have <span className="font-bold">zero game</span> but it's okay, these questions will make you better.</p>
 
 
                             </div>
@@ -510,9 +617,9 @@ slideIntoDmsQuestions: [{
                         <MagnifyingGlassCircleIcon className="size-12" />
                         <div className="col-span-4 w-full">
                             <div className="flex flex-col gap-3 text-left">                         
-                                <p className="font-1 text-3xl font-bold text-left">Have fun</p>
+                                <p className="font-1 md:text-3xl text-2xl font-bold text-left">Have fun</p>
 
-                                <p className="text-left text-lg">You're taking an SAT for your game. Have fun (that's all that matters :))</p>
+                                <p className="text-left md:text-lg">You're taking an SAT for your game. Have fun (that's all that matters :))</p>
 
 
                             </div>

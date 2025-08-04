@@ -1,8 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Gidole&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
- @plugin "daisyui" {
-   themes: light --default
- }
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+/* @plugin "daisyui/theme" {
+  name: "myLight";
+  default: true;
+  color-scheme: "light";
+  --color-base-100: #ffffff;
+  --color-base-200: #fefefe;
+  --color-base-300: #f9f9f9;
+  --color-base-content: #2b2b2b;
+  --color-primary: #7d40b3;
+  --color-primary-content: #f2eaff;
+  --color-secondary: #e55454;
+  --color-secondary-content: #fff0f0;
+  --color-accent: #9be5e5;
+  --color-accent-content: #4e7c7c;
+  --color-neutral: #1e1e1e;
+  --color-neutral-content: #ebebeb;
+  --color-info: #93baff;
+  --color-info-content: #465888;
+  --color-success: #82e28c;
+  --color-success-content: #3b7f47;
+  --color-warning: #f5d160;
+  --color-warning-content: #8a683a;
+  --color-error: #ec6a6a;
+  --color-error-content: #692c2c;
+} */
+
 
 
 .font-1 {

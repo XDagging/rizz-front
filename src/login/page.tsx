@@ -102,7 +102,7 @@ export default function Login() {
         <Notif type={notif.type} message={notif.message} />
         <div className="min-h-screen">
                <Navbar />
-        <div className="flex flex-col bg-base-200 w-2/6 mx-auto items-center justify-items-center justify-center gap-2 rounded-box p-8 text-center">
+        <div className="flex flex-col bg-base-200 md:w-2/6 mx-auto items-center justify-items-center justify-center gap-2 rounded-box md:p-8 p-3 text-center">
                     <p className="text-5xl font-1 font-extrabold">Welcome back <br/></p>
                     <p className="font-1 text-lg w-4/6">Should be an easy 1600, right?</p>
         

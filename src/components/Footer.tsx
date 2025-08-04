@@ -1,6 +1,5 @@
-import React from "react";
 import { FaInstagram, FaTiktok, FaEnvelope } from "react-icons/fa";
-
+import logo from "../assets/logo.svg"
 
 
 
@@ -15,9 +14,10 @@ export default function Footer() {
         <>
 
             
-            <div className="footer flex flex-row  p-10 ">
+            <div className="footer flex flex-row  p-10">
                 <nav>
-                    <p className="font-1 text-lg">companyName,<br/> debugging that understands</p>
+                    <img src={logo} className="size-8 object-cover"/>
+                    <p className="font-1 text-lg"><span className="font-bold">toomanyheys</span>,<br/> the SAT that tests your game</p>
                 
                     <div className="flex flex-row gap-1">
                     

@@ -11,6 +11,7 @@ import type { BrowserUser } from './types'
 import Settings from './settings/page';
 import UserContext, {IsLoggedInContext} from './context'
 import callApi from './functions'
+import Scores from './scores/page';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
@@ -32,7 +33,12 @@ function App() {
           
 
           console.log('we just changed user')
-          setUser(JSON.parse(res.message));
+          
+          if (!JSON.parse(res.message).allTests) {
+            setUser({...JSON.parse(res.message), allTests: []});
+          } else {
+            setUser(JSON.parse(res.message))
+          }
           if (path==="login"||path==="signup") {
             navigate("/dashboard")
           }
@@ -69,6 +75,7 @@ function App() {
                <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/test" element={<Test />} /> 
               <Route path="/settings" element={<Settings />} />
+              <Route path="/scores" element={<Scores />} />
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>

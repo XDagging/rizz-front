@@ -91,12 +91,12 @@ useEffect(() => {
     <>
 
       {/* <Navbar /> */}
-      <div className='hero overflow-hidden  max-h-screen'>
+      <div className='hero overflow-hidden  md:max-h-screen'>
         <div className='hero-content'>
-          <div className='grid grid-cols-2 items-center justify-center justify-items-center w-fit h-full mx-auto'>
+          <div className='grid md:grid-cols-2 grid-cols-1 items-center justify-center justify-items-center w-fit h-full mx-auto'>
             
             <div className='flex flex-col gap-4 w-fit'>
-              <h1 className='text-7xl font-bold font-1 w-full'>the SAT that tests your game.</h1>
+              <h1 className='md:text-7xl text-5xl font-bold font-1 w-full'>the SAT that tests your game.</h1>
               <Link to="/signup" className='btn btn-accent w-fit btn-lg font-1 font-bold btn-outline'>Take test</Link>
 
               <div className='mt-8 mx-auto flex flex-row items-center gap-2'>
@@ -134,7 +134,7 @@ useEffect(() => {
                  <div className="mockup-phone w-fit h-full scale-85">
   {/* <div className="mockup-phone-camera"></div> */}
   <div className="mockup-phone-display bg-base-300 ">
-    <div className='w-full p-5 bg-base-100 flex flex-row items-center border-b border-neutral'>
+    <div className='w-full p-5 bg-base-100 flex md:flex-row flex-row items-center border-b border-neutral'>
       <ChevronLeftIcon className='size-6' />
 <p className='font-1 text-left ml-2 font-semibold flex-1'>Ashley</p>
 
@@ -192,11 +192,11 @@ useEffect(() => {
         
 
       <div className='bg-base-300 p-5'>
-            <div className='flex flex-row gap-2  mt-4'>
-      <div className="mockup-window border-b bg-base-100 border-base-300 w-3/6 h-full">
+            <div className='flex md:flex-row flex-col-reverse md:gap-2 gap-5  mt-4'>
+      <div className="mockup-window border-b bg-base-100 border-base-300 md:w-3/6 h-full">
 <div className='w-full min-h-80 p-2'>
     <div className='font-1 rounded-box bg-base-100 p-3'>
-      <div className='w-full pb-4 flex flex-row items-center gap-4 border-b'>
+      <div className='w-full pb-4 flex flex-row md:flex-nowrap flex-wrap md:items-center items-center gap-4 border-b'>
       <div className='flex flex-row items-end gap-2'>
         <div>
            <p className='font-semibold'>TOTAL SCORE</p>
@@ -207,7 +207,7 @@ useEffect(() => {
       </div>
       
 
-      <div className='ml-auto flex flex-row gap-8 w-4/6'>
+      <div className='md:ml-auto flex flex-row gap-8 md:w-4/6'>
          <div className=''>
       <p className='font-semibold font-1'>Charm</p>
       <p className='font-bold text-2xl'>760</p>
@@ -242,7 +242,7 @@ useEffect(() => {
 </div>
 
 <div>
-  <p className='font-1 text-3xl ml-2 font-bold text-left'>20 Minutes. Three Sections. Instant Scores </p>
+  <p className='font-1 text-3xl ml-2 font-bold md:text-left text-center'>20 Minutes. Three Sections. Instant Scores </p>
 
 </div>
 

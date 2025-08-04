@@ -1,5 +1,32 @@
 // import { useSession } from "next-auth/react";
 
+import * as culori from "culori";
+
+/**
+ * Grabs the computed background color of an element with a Tailwind class
+ * and converts it to a hex string, even if it's using oklch().
+ */
+export async function resolveTailwindBgHex(className: string): Promise<string | null> {
+  const el = document.createElement("div");
+  el.className = className;
+  el.style.display = "none";
+  document.body.appendChild(el);
+
+  const color = getComputedStyle(el).backgroundColor;
+  document.body.removeChild(el);
+
+  try {
+    const parsed = culori.parse(color);
+    if (parsed) {
+      return culori.formatHex(parsed);
+    }
+  } catch (err) {
+    console.error("Failed to parse color", err);
+  }
+
+  return null;
+}
+
 export interface Session {
     user?: {
       jwt?: string;

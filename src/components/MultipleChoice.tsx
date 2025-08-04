@@ -13,6 +13,7 @@ type MultipleProps = {
         optionD: string;
     },
     questionNumber: number;
+    answerSaved: string;
     setMcqAnswers: Dispatch<SetStateAction<string[]>>
 }
 
@@ -37,9 +38,10 @@ export default function MultipleChoice(props: MultipleProps) {
 
     useEffect(() => {
         setCurrQuestion(props.question);
-        setOptionClicked("")
+        setOptionClicked(props.answerSaved || "")
+        // setOptionClicked("")
 
-    },[props.question])
+    },[props.question, props.answerSaved])
 
 
     
@@ -50,9 +52,9 @@ export default function MultipleChoice(props: MultipleProps) {
 
 
             <section className="p-4">
-                <div className="grid grid-cols-1 w-3/6 mx-auto items-center justify-items-start h-full">
+                <div className="grid grid-cols-1 md:w-3/6 mx-auto items-center justify-items-start h-full">
 
-                    <div className="w-full flex flex-col gap-4">
+                    <div className="w-full flex flex-col gap-4 md:min-h-0 min-h-screen">
                         <div className="flex flex-row bg-base-300 items-center font-1 gap-4 w-full">
                             <p className="p-2 bg-neutral text-neutral-content font-1 font-bold">{props.questionNumber}</p>
                             <p>Multiple Choice Question</p>

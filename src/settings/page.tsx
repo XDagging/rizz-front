@@ -4,6 +4,7 @@ import AdminNavbar from "../components/AdminNavbar";
 import { Cog8ToothIcon,UserIcon, ArrowRightStartOnRectangleIcon, FireIcon, TrashIcon, InformationCircleIcon } from "@heroicons/react/24/solid";
 import type { BrowserUser } from "../types";
 import { useNavigate } from "react-router-dom";
+import callApi from "../functions";
 
 
 
@@ -33,12 +34,25 @@ export default function Settings() {
 
     },[]);
 
+      const signOut = () => {
+            console.log("clicked signout")
+            callApi("/logout", "GET").then((res) => {
+                if (res.code === "err") {
+                    // idfk
+                } else if (res.code === "ok") {
+                    navigation("/login")
+                } else {
+                    navigation("/login")
+                }
+            })
+        }
+
 
 
     return (
         <>
         {(user!==null) && (
-               <div className="flex flex-row font-1">
+               <div className="md:flex md:flex-row font-1">
             <AdminNavbar />
             <div className="p-4 flex flex-col gap-2 w-full">
 
@@ -63,7 +77,7 @@ export default function Settings() {
                         <p>Account Info</p>
                     </div>
 
-                    <div className="flex flex-row gap-4 items-center w-full">
+                    <div className="flex md:flex-row flex-col gap-4 items-center w-full">
                         <fieldset className="fieldset w-full">
   <legend className="fieldset-legend">Username</legend>
         <input value={user.name} onChange={(e) => {
@@ -102,7 +116,7 @@ export default function Settings() {
                         <div className="p-3 flex flex-col gap-2 w-full">
 
                             <div>
-                                <div className="btn btn-error btn-outline gap-2 w-fit">
+                                <div className="btn btn-error btn-outline gap-2 w-fit" onClick={signOut}>
                                 <ArrowRightStartOnRectangleIcon className="size-4" />
                                 <p>Log out</p>
                             </div>

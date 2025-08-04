@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import {useState, useEffect, useRef} from "react";
 import { ChevronLeftIcon, PhoneIcon, VideoCameraIcon } from "@heroicons/react/24/solid";
 import Conversation from "./Conversation";
 import Message from "./Message"
@@ -187,10 +187,10 @@ export default function DmsSection(props: DmsProps) {
         <>
         
                  <section className="p-4">
-                <div className="grid grid-cols-2 w-full mx-auto items-start justify-items-start h-full">
+                <div className="grid min-h-[125vh] md:gap-0 gap-3 md:grid-cols-2 grid-cols-1 w-full max-w-full mx-auto items-start justify-items-start h-full">
 
-                    <div className="mockup-phone w-fit h-[60vh]">
-  <div className="mockup-phone-display h-full bg-base-300 flex flex-col">
+                    <div className="mockup-phone md:w-fit w-full md:h-[60vh] h-[50vh]">
+  <div className="mockup-phone-display w-full md:w-[390px] h-full bg-base-300 flex flex-col">
     
     {/* Header */}
     <div className='w-full p-5 bg-base-100 flex items-center border-b border-neutral'>
@@ -203,7 +203,7 @@ export default function DmsSection(props: DmsProps) {
     </div>
 
     {/* Scrollable conversation area */}
-    <div ref={scrollRef} className="flex-1 overflow-y-auto">
+    <div ref={scrollRef} className="flex w-full overflow-y-auto">
       <Conversation>
         {(messages&&messages.length>0) && (
             messages?.map((message) => (

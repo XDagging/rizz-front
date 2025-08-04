@@ -5,33 +5,18 @@ import { HiDotsVertical } from "react-icons/hi";
 import { ClockIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
-let interval;
+
 type TestNavProps = {
+    timer: number;
     slideName: string;
 }
 export default function TestNavbar(props: TestNavProps) {
     
     const [currentSlide, setCurrentSlide] = useState(props.slideName)
-    const [timer, setTimer] = useState(1000*60*8);
+    const [timer, setTimer] = useState(props.timer);
     const [hideTimer, setHideTimer] = useState<boolean>(false);
 
-    useEffect(() => {
-        
-        interval = setInterval(() => {
-            
-
-
-            setTimer((prevTimer) => {
-                
-                return prevTimer-1000
-            })
-
-        },1000)
-
-
-
-    },[])
-
+  
     useEffect(() => {
 
         setCurrentSlide(props.slideName);
@@ -40,6 +25,9 @@ export default function TestNavbar(props: TestNavProps) {
 
 
 
+    useEffect(() => {
+        setTimer(props.timer);
+    },[props.timer])
 
 
     return (
