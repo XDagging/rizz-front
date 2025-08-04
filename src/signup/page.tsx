@@ -164,11 +164,11 @@ export default function Signup() {
         </div>
 
             <div className="bg-base-300 font-1 md:p-10 p-4 flex flex-row items-center">
-                <div className=" h-4/6 w-full rounded-box">
+                {/* <div className=" h-4/6 w-full rounded-box">
                     <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1" className="w-full h-full rounded-box" />
                         
 
-                </div>
+                </div> */}
 
 
                 {/* <h1 className="text-4xl font-semibold">Put your game where your mouth is</h1> */}

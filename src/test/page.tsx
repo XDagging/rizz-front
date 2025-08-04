@@ -24,7 +24,7 @@ export default function Test() {
     const [loadingBetweenSections, setLoadingBetweenSections] = useState<boolean>(false);
     const [loading, setLoading] = useState(true);
     const [hasStarted, setHasStarted] = useState(false);
-    const [currentState, setCurrentState] = useState("live");
+    const [currentState, setCurrentState] = useState("mcq");
     const [testNavTitle, setTestNavTitle] = useState("Multiple Choice Portion")
 
     const [outOfTests, setOutOfTests] = useState(false);
