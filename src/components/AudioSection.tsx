@@ -292,10 +292,26 @@ export default function AudioSection(props: AudioProps) {
                   </>
                 ) : (
                   <>
-                    <div className="p-5 rounded-full text-red-500">
+                  {!messages.at(-1)?.message.includes("*success*") ?
+      <>
+        <div className="p-5 rounded-full text-red-500">
                       <MicrophoneIcon className="size-12" />
                     </div>
-                    <p className="text-error font-1 font-bold">She hung up on you lil bro</p>
+        {/* <div className="badge badge-error font-1"> */}
+           <p className="text-error font-1 font-bold">She hung up on you lil bro</p>
+        {/* </div> */}
+      </>
+    : <>
+      <div className="p-5 rounded-full text-green-500">
+                      <MicrophoneIcon className="size-12" />
+                    </div>
+       {/* <div className="badge badge-success font-1"> */}
+          <p className="text-success font-1 font-bold">Good stuff brother</p>
+        {/* </div> */}
+    
+    </>}
+                  
+                   
                   </>
                 )
               ) : (

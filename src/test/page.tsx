@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import TestNavbar from "../components/TestNavbar"
 import MultipleChoice from "../components/MultipleChoice";
-import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/solid";
+import { BellAlertIcon, MagnifyingGlassCircleIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import TestDock from "../components/TestDock"
 import DmsSection from "../components/DmsSection";
@@ -10,6 +10,7 @@ import AudioSection from "../components/AudioSection";
 import type { MessageType } from "../types";
 import { SiKlarna } from "react-icons/si";
 import { CgSmileMouthOpen } from "react-icons/cg";
+import { FiAlertTriangle } from "react-icons/fi";
 
 import { SiAffine } from "react-icons/si";
 // import AdminNavbar from "../components/AdminNavbar";
@@ -351,7 +352,7 @@ slideIntoDmsQuestions: [{
         
         <div className="flex md:flex-row flex-col h-full min-h-screen w-full">
             {/* <AdminNavbar /> */}
-            <div className="w-full bg-base-200 p-10 min-h-screen flex h-full flex-col gap-2">
+            <div className="w-full bg-base-200 p-10 md:min-h-screen flex h-full flex-col gap-2">
                 <p className="font-1 text-4xl font-bold">Taking too many tests bud.</p>
                 <p className="font-1 font-semibold text-lg">Just like the real SAT, you're <span className="italic">limited* </span>on how many times you can take this</p>
 
@@ -403,11 +404,15 @@ slideIntoDmsQuestions: [{
 
                 </div>
 
+                <div className="alert text-lg alert-warning font-1">
+                    <FiAlertTriangle />
+                    <p>Wait until tomorrow to take this test again.</p>
+                </div>
 
 
             </div>
 
-            <div className="w-full h-full p-10 min-h-screen shadow-md">
+            <div className="w-full h-full p-10 md:min-h-screen shadow-md">
 
                 <div className="border font-1 border-base-300 p-4 rounded-box flex h-full flex-col gap-2">
                     <div className=" ">
@@ -555,7 +560,7 @@ slideIntoDmsQuestions: [{
 
 
                         <div>
-                            <Link to="/dashboard" className="btn-primary btn rounded-full">Return to homepage</Link>
+                            <a href="/dashboard" className="btn-primary btn rounded-full">Return to homepage</a>
                         </div>
                     </div>  
 

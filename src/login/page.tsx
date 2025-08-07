@@ -17,7 +17,7 @@ let timeout: Timeout;
 export default function Login() {
     const nav = useNavigate();
     const url = window.location.href.includes("localhost") ? "https://localhost:443" : "https://api.toomanyheys.com";
-
+    const [loading, setLoading] = useState(false);
     const [user, setUser] = useState<LoginUser>({
         email: "",
         password: ""
@@ -59,6 +59,7 @@ export default function Login() {
             }
             
             else {
+                setLoading(true);
                 callApi("/login", "POST", user).then((res) => {
                     console.log("this was the response from the request", res)
                     if (res.code === "err") {
@@ -81,6 +82,7 @@ export default function Login() {
                             message: "Invalid Message"
                         })
                     }
+                    setLoading(false);
                     
                     
                 })
@@ -102,7 +104,7 @@ export default function Login() {
         
 <Helmet>
             <meta charSet="utf-8" />
-            <title>Terms and Conditions - toomanyheys</title>
+            <title>Login - toomanyheys</title>
             <meta name="keywords" content="sat, satprep, sat dating, rizz, rizz dating" />
             <meta
       name="description"
@@ -133,7 +135,13 @@ export default function Login() {
                             })} type="password" className="input w-full" placeholder="Password" />
                  
                         </fieldset>
-                        <button onClick={doSubmit} className="btn btn-primary">Join the waitlist</button>
+                        {!loading ? <>
+                        <button onClick={doSubmit} className="btn btn-primary">Login</button>
+                        
+                        </> : <>
+                        <button className="btn btn-disabled"><div className="loading loading-spinner"></div>Login</button>
+                        </>}
+                        
           <div className="divider w-full divider-neutral">or</div>
                         <a href={url + "/auth/google"} className="btn btn-outline btn-secondary ">
                             <FaGoogle />

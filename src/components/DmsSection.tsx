@@ -26,6 +26,8 @@ type DmsProps = {
 export default function DmsSection(props: DmsProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [success, setSuccess] = useState(false);
+
     const [blocked, setBlocked] = useState<boolean>(false);
     const messageRef = useRef<HTMLTextAreaElement>(null);
     const [messages, setMessages] = useState<MessageType[]>([{
@@ -44,6 +46,13 @@ export default function DmsSection(props: DmsProps) {
       })
       
         // Loading bubble
+
+        if (messages.at(-1)?.message.toLowerCase().includes("blocked")||messages.at(-1)?.message.toLowerCase().includes("*success*")) {
+            console.log("This is the top")
+            setBlocked(true);
+            return;
+
+        }
         setMessages((prev) => [
         ...prev,
         {
@@ -58,6 +67,7 @@ export default function DmsSection(props: DmsProps) {
       
 
         setTimeout(() => {
+            console.log("THE API WAS CALLED")
             callApi("/getTest/aiResponse", "POST", {
                 messages: messages,
                 testId: props.testId,
@@ -65,8 +75,24 @@ export default function DmsSection(props: DmsProps) {
             }).then((res) => {
                 if (res.code==="ok") {
                     const newMsg = JSON.parse(res.message);
-                    if (newMsg.toLowerCase().includes("blocked")) {
+                    if (newMsg.toLowerCase().includes("*blocked*")||newMsg.toLowerCase().includes("*success*")) {
+                        console.log("Success was set to true")
                         setBlocked(true)
+                        setMessages((prev) => {
+                            const msgs = prev || [];
+
+                            const updated = [...msgs];
+                            
+                            updated[updated.length-1] = {
+                                message: newMsg,
+                                side: "left",
+                                loading: false
+                            }
+
+                            return updated;
+
+                            
+                        })
                     } else {
                         setMessages((prev) => {
                         const msgs = prev || []
@@ -111,7 +137,6 @@ export default function DmsSection(props: DmsProps) {
 
 
     useEffect(() => {
-
         return () => {
             setLoading(true);
             setNewMessage("");
@@ -123,8 +148,10 @@ export default function DmsSection(props: DmsProps) {
         console.log("inside the dms section", props.question)
         setQuestion(props.question);
         console.log("props.messages", props.messages);
-        if (props.messages&&props.messages.messages&&props.messages.messages.length>0&&props.messages?.messages?.at(-1)?.message.includes("blocked")) {
+        if (props.messages&&props.messages.messages&&props.messages.messages.length>0&&(props.messages?.messages?.at(-1)?.message.includes("*blocked*")||props.messages?.messages?.at(-1)?.message.includes("*success*"))) {
+            console.log("set blocked or success to true")
             setBlocked(true);
+            
         } else {
             setBlocked(false);
         }
@@ -148,7 +175,9 @@ export default function DmsSection(props: DmsProps) {
                 behavior: 'smooth'
             });
 
-            if (messages.at(-1)?.message.includes("blocked")) {
+            console.log("messages just changed: ", messages.at(-1)?.message)
+            if (messages.at(-1)?.message.includes("*blocked*")||messages.at(-1)?.message.includes("*success*")) {
+                console.log("this person was blocked or success")
                 setBlocked(true);
             } else {
                 setBlocked(false);
@@ -207,12 +236,18 @@ export default function DmsSection(props: DmsProps) {
       <Conversation>
         {(messages&&messages.length>0) && (
             messages?.map((message) => (
-          <Message
+            <>
+
+            {(!message.message.includes("*blocked*")&&!message.message.includes("*success*")) && (
+    <Message
             key={message.message}
             side={message.side}
             message={message.message}
             loading={message?.loading}
           />
+            )}
+            </>
+      
         ))
         )}
       
@@ -230,11 +265,22 @@ export default function DmsSection(props: DmsProps) {
                     
                     
                     <div className="w-full flex flex-col gap-4 font-1">
-                          {(blocked) && (
-                            <div className="badge badge-error font-1">
-                                <p>Blocked</p>
-                            </div>   
-                        )}
+                          {blocked && (
+  <>    
+    {!messages.at(-1)?.message.includes("*success*") ?
+      <>
+        <div className="badge badge-error font-1">
+          <p>Blocked</p>
+        </div>
+      </>
+    : <>
+       <div className="badge badge-success font-1">
+          <p>Success</p>
+        </div>
+    
+    </>}
+  </>
+)}
                         <div className="flex flex-row bg-base-300 items-center font-1 gap-4 w-full">
                             <p className="p-2 bg-neutral text-neutral-content font-1 font-bold">{props.questionNumber}</p>
                             <p>DMS Situationals</p>

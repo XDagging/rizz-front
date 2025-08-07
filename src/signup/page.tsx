@@ -11,7 +11,7 @@ let timeout: Timeout;
 export default function Signup() {
     const nav = useNavigate();
     const url = window.location.href.includes("localhost") ? "https://localhost:443" : "https://api.toomanyheys.com";
-
+    const [loading, setLoading] = useState(false);
     const [user, setUser] = useState<User>({
         name: "",
         email: "",
@@ -44,6 +44,7 @@ export default function Signup() {
 
     const doSubmit = () => {    
         console.log("check")
+        
         try {
             if (!isEmail(user.email)) {
                 setNotif({
@@ -62,8 +63,10 @@ export default function Signup() {
                     message: "Invalid Password"
                 })
             }
+
             
             else {
+                setLoading(true);
                 callApi("/register", "POST", user).then((res) => {
                     console.log("this was the response from the request", res)
                     if (res.code === "err") {
@@ -85,6 +88,7 @@ export default function Signup() {
                         })
                         nav("/dashboard");
                     }
+                    setLoading(false);
                     
                     
                 })
@@ -156,9 +160,15 @@ export default function Signup() {
                     })}  type="password" className="input w-full" placeholder="Confirm Password" />
                 
                 </fieldset> 
+                {!loading ? <>
+                   <button onClick={doSubmit} className="btn btn-primary">Create your account</button>
 
-                <button onClick={doSubmit} className="btn btn-primary">Create your account</button>
-                <Link to="/login" className="mt-2 link-primary ">Login Instead</Link>
+                
+                </> : 
+                <>
+                   <button className="btn btn-disabled"><div className="loading loading-spinner"></div>Create your account</button>
+</>}
+                             <Link to="/login" className="mt-2 link-primary ">Login Instead</Link>
   <div className="divider w-full divider-neutral">or</div>
                 
                 <a href={url + "/auth/google"} className="btn btn-outline btn-secondary ">
