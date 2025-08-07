@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import TestNavbar from "../components/TestNavbar"
 import MultipleChoice from "../components/MultipleChoice";
-import { BellAlertIcon, MagnifyingGlassCircleIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import TestDock from "../components/TestDock"
 import DmsSection from "../components/DmsSection";

@@ -1,69 +1,121 @@
-# React + TypeScript + Vite
+# rizz-front 🎯
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TooManyHeys is the **SAT—but for dating**. It tests your "game" through a structured exam that mirrors the real SAT experience, but swaps algebra and vocab for charm and execution. The app looks just like Bluebook™ and includes:
 
-Currently, two official plugins are available:
+- 🧠 **20 multiple choice questions** — assess your dating intuition
+- 📱 **3 DM scenarios** — craft the perfect openers in realistic dating app chats
+- 🗣️ **1 live oral section** — talk your way through a one-on-one voice prompt
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is the frontend repo for the project. The backend can be found here:  
+👉 [`rizz-back`](https://github.com/XDagging/rizz-back)
 
-## Expanding the ESLint configuration
+Built with **Vite**, **React**, and **TypeScript**.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🧪 Live Site
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+[https://toomanyheys.com](https://toomanyheys.com)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 🚀 Features
+
+- Full SAT-style interface inspired by Bluebook
+- Real-time scoring across two categories:  
+  - **Charm** (attraction, charisma, personality)  
+  - **Execution** (real-world application of charm)
+- Seamless WebSocket connection to backend for voice interactions
+- Chat simulations with sliding DMs
+- Clean, fast UI with Vite + React
+
+---
+
+## 🧰 Tech Stack
+
+- Frontend: Vite + React + TypeScript
+- Backend: Express (TypeScript) — [`rizz-back`](https://github.com/XDagging/rizz-back)
+- WebSockets for live voice interactions
+- State managed with React Context + custom hooks
+
+---
+
+## 🛠️ Local Setup
+
+### 1. Clone the repos
+
+```bash
+git clone https://github.com/XDagging/rizz-front.git
+git clone https://github.com/XDagging/rizz-back.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+⚙️ Frontend Setup (rizz-front)
+Prerequisites
+Node.js (v18 or higher)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+pnpm (or npm/yarn)
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Install dependencies
+```bash
+cd rizz-front
+pnpm install
 ```
+Run the dev server
+```bash
+pnpm run dev
+```
+Environment Variables
+
+Create a .env file in rizz-front:
+
+```bash
+VITE_BACKEND_URL=http://localhost:3000
+```
+🧩 Backend Setup (rizz-back)
+
+ Here's a quickstart:
+
+Prerequisites
+Node.js (v18 or higher)
+
+PostgreSQL or another DB (if used)
+
+pnpm (or npm/yarn)
+
+Install dependencies
+```bash
+cd rizz-back
+pnpm install
+
+```
+
+Run dev server
+```bash
+pnpm run dev
+```
+
+Environment Variables
+In the root of rizz-back, add a .env:
+
+PORT=3000
+FRONTEND_ORIGIN=http://localhost:5173
+# Add other backend secrets here
+
+🧪 Testing
+Both frontend and backend should be running locally.
+
+Frontend: http://localhost:5173
+
+Backend: http://localhost:3000
+
+The frontend uses WebSocket or HTTP requests depending on the test section you're in.
+
+🧠 Contributing
+If you have ideas for new question types, improvements, or just want to help push dating science forward — PRs welcome!
+
+📝 License
+MIT — do whatever you want, just don’t ghost us.
+
+💌 Contact
+Built by @XDagging
+Email: sniphomes@gmail.com

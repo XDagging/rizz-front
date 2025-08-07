@@ -26,7 +26,7 @@ type DmsProps = {
 export default function DmsSection(props: DmsProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const [success, setSuccess] = useState(false);
+    // const [success, setSuccess] = useState(false);
 
     const [blocked, setBlocked] = useState<boolean>(false);
     const messageRef = useRef<HTMLTextAreaElement>(null);
