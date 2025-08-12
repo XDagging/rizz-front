@@ -44,7 +44,7 @@ export default function Footer() {
                  <nav className="font-1">
                     <p className="footer-title">Misc</p>
                     <Link to="/mission" className="link link-hover">Why does this exist?</Link>
-                    {/* <Link to="/privacy" className="link link-hover">Privacy Policy</Link> */}
+                    <Link to="/work" className="link link-hover">Want to help toomanyheys out?</Link>
                
 
 
