@@ -44,5 +44,11 @@ export interface NotifType {
     message: string;
 }
 
+export type BlogProps = {
+    title: string;
+    paragraphs: string[];
+    
+}
+
 
 export type Timeout = ReturnType<typeof setTimeout> | undefined;

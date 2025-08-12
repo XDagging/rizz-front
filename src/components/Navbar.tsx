@@ -24,8 +24,8 @@ export default function Navbar() {
                 <div className="navbar-center">
                     <div className="menu lg:flex hidden font-semibold font-1 menu-horizontal gap-5  "> 
                         <Link to="/" className="btn-ghost btn">Home</Link>
-                        <Link to="/features" className=" btn btn-ghost btn-disabled">Why does this exist?</Link>
-                        <Link to="/works" className="btn-ghost btn btn-disabled">How it works</Link>
+                        <Link to="/mission" className=" btn btn-ghost">Why does this exist?</Link>
+                        <Link to="/work" className="btn-ghost btn">Want to help out?</Link>
                     </div>
                     
                 </div>

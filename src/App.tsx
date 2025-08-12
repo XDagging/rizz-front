@@ -16,7 +16,8 @@ import Scores from './scores/page';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import PrivacyPolicy from './privacy/page';
 import Terms from "./terms/page"
-
+import Mission from './mission/page';
+import Work from "./work/page"
 function App() {
   const location = useLocation();
   const navigate = useNavigate()
@@ -76,6 +77,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<Terms />} />
+            <Route path="/work" element={<Work />} />
+            <Route path="/mission" element={<Mission />} />
             {/* <Route path="/download" element={<DownloadFile />} /> */}
             <Route element={<ProtectedRoute isAuthenticated={user!==null} />} >
                <Route path="/dashboard" element={<Dashboard />} />
