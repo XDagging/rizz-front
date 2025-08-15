@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import type { BlogProps } from "../types";
 import BlogCTA from "./BlogCTA";
 

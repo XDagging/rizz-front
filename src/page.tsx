@@ -255,8 +255,25 @@ useEffect(() => {
   {/* <div className="grid place-content-center border-t border-base-300 h-80">Hello!</div> */}
 </div>
 
-<div>
-  <p className='font-1 text-3xl ml-2 font-bold md:text-left text-center'>20 Minutes. Three Sections. Instant Scores </p>
+<div className='flex-1  ml-2'>
+  <h2 className='font-1 text-4xl font-bold md:text-left text-center'>20 Minutes. Three Sections. Instant Scores </h2>
+  
+  <div className='font-1 bg-base-100 p-4 mt-3 rounded-box h-full '>
+    
+    <p className=''>
+      Think you've got game? <strong>TooManyHeys</strong> is the ultimate dating SAT — a fast-paced, 
+      20-minute challenge with three sections that measure your <em>charm</em>, 
+      <em>conversation skills</em>, and <em>closing ability</em>. 
+      From sliding into DMs to real-time banter, every question is designed 
+      to put your dating instincts to the test. Get your score instantly and 
+      see if you're top-tier rizz material or need a little extra practice.
+    </p>
+    <p className='mt-2'>
+      Whether you're prepping for your next big date or just want to see how you 
+      rank, this is the SAT you'll actually enjoy taking. 
+      <strong> No #2 pencils required.</strong>
+    </p>
+  </div>
 
 </div>
 
