@@ -21,8 +21,8 @@ export default function Footer() {
                 
                     <div className="flex flex-row gap-1">
                     
-                    <a href="#" className="btn btn-circle btn-ghost"><FaInstagram/></a>
-                    <a href="#" className="btn btn-circle btn-ghost"><FaTiktok/></a>
+                    <a href="https://www.instagram.com/heyimseba/?hl=en" className="btn btn-circle btn-ghost"><FaInstagram/></a>
+                    {/* <a href="#" className="btn btn-circle btn-ghost"><FaTiktok/></a> */}
                     <a href="mailto:xdagging@gmail.com" className="btn btn-circle btn-ghost"><FaEnvelope/></a>
 
                 
